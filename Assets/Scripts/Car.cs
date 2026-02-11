@@ -1,35 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Car : MonoBehaviour
 {
     private GameObject[] tires;
     private bool moveDown = false;
-    private int ready = 0;
+    private bool jumpReady = false;
     private Dictionary<GameObject, Vector3> tireBasePositionDic = new Dictionary<GameObject, Vector3>();
 
 
-    IEnumerator MoveTireToBasePosition(GameObject tire)
+    IEnumerator MoveTire(GameObject tire, Vector3 targetPos, bool finsihUp, float duration)
     {
-        float duration = 0.5f;
+        if (finsihUp)
+        {
+            while (moveDown)
+            {
+                yield return null;
+            }
+        }
+
         float elapsed = 0f;
-        Vector3 startPos = tire.transform.position;
-        Vector3 targetPos = tireBasePositionDic[tire];
+        Vector3 startPos = tire.transform.localPosition;
 
         while (elapsed < duration)
         {
-            tire.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            tire.transform.localPosition = Vector3.Lerp(startPos, targetPos, elapsed / duration);
             elapsed += Time.deltaTime;
-            yield return null; //wartet bis zum nächsten frame
+            yield return null;
         }
 
-        tire.transform.position = targetPos;
-        ready--;
+        if (finsihUp)
+        {
+            tire.transform.localPosition = targetPos;
+        }
+        else
+        {
+            moveDown = false;
+        }
     }
-    IEnumerator SetMoveDownFalse()
+    IEnumerator SetJumpReadyTrue(int time)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(time);
+        jumpReady = true;
     }
 
     private void Awake()
@@ -42,32 +56,29 @@ public class Car : MonoBehaviour
     }
     private void Start()
     {
-        Debug.LogWarning("der move down teil ist nicht sequenziell: moveDown = true und die corountine wird gestartet");
+        StartCoroutine(SetJumpReadyTrue(5));
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            if (ready == 0)
+            if (jumpReady)
             {
-                ready = 4;
+                jumpReady = false;
+                StartCoroutine(SetJumpReadyTrue(2));
                 moveDown = true;
-                StartCoroutine(SetMoveDownFalse());
 
-                foreach(GameObject tire in tires)
+                //move down
+                foreach (GameObject tire in tires)
                 {
-                    StartCoroutine(MoveTireToBasePosition(tire));
-
-                    //chill weil wechsel
+                    StartCoroutine(MoveTire(tire, tire.transform.localPosition + Vector3.down, false, 0.25f));
                 }
-            }
-        }
 
-        if (moveDown)
-        {
-            foreach (GameObject tire in tires)
-            {
-                tire.transform.position = Vector3.Lerp(tire.transform.position, tire.transform.position + Vector3.down * 2, Time.deltaTime);
+                //move up
+                foreach (GameObject tire in tires)
+                {
+                    StartCoroutine(MoveTire(tire, tireBasePositionDic[tire], true, 1));
+                }
             }
         }
     }
