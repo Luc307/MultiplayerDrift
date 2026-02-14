@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 89021085027724997}
   - component: {fileID: 7847944484297054210}
   m_Layer: 0
-  m_Name: Arch_01_free_obs
+  m_Name: CheckpointGr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,18 +22,35 @@ public class SpSetup : MonoBehaviour
 
     private GameObject[] cageTiles;
 
-    private int force = 50000;
+    private int jumpForce = 50000;
+    private int speedUpForce = 35;
 
+
+    public IEnumerator SpeedUp()
+    {
+        while (true)
+        {
+            carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * speedUpForce, ForceMode.Acceleration);
+            yield return new WaitForFixedUpdate();
+        }
+    }
 
     public void AddForce(Vector3 dir)
     {
-        carInstance.GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.Impulse);
+        carInstance.GetComponent<Rigidbody>().AddForce(dir * jumpForce, ForceMode.Impulse);
     }
     public void OnFinishTrigger()
     {
+        bool impulsed = false;
         if (collectedCps >= neededCps)
         {
             Debug.Log("You successfully finished and collected all checkpoints!");
+            if (!impulsed)
+            {
+                impulsed = true;
+                carInstance.GetComponent<CarController>().enabled = false;
+                carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * -50000, ForceMode.Impulse);
+            }
         }
         else
         {
