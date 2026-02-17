@@ -504,6 +504,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2123260120860458597, guid: 795b223760888684a910808f3ae75d35,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 7479
+      objectReference: {fileID: 0}
     - target: {fileID: 3049133517560991722, guid: 795b223760888684a910808f3ae75d35,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -702,7 +707,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 75
+  orthographic size: 90
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -732,6 +737,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CarPlane
   smoothTime: 0.5
   offset: {x: 0, y: 100, z: 0}
+  rotation: 0
+  rotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &340901822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -867,8 +874,8 @@ GameObject:
   - component: {fileID: 406822962}
   - component: {fileID: 406822961}
   - component: {fileID: 406822964}
-  m_Layer: 0
-  m_Name: CarPlane
+  m_Layer: 9
+  m_Name: CarArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -884,8 +891,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 122.2, y: 50, z: 95.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1.5, y: 1, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 646667434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -967,7 +974,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406822959}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 84f0f4116ddc38d4ebc0dcaa236e7180, type: 2}
 --- !u!114 &406822964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,7 +988,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   smoothTime: 0
-  offset: {x: 0, y: 50, z: 0}
+  offset: {x: 0, y: 90, z: 0}
+  rotation: 1
+  rotationOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &533384515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2758,7 +2767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20784315, g: 0.21176472, b: 0.21176472, a: 0.9019608}
+  m_Color: {r: 0.1273407, g: 0.13207549, b: 0.13207549, a: 0.9647059}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

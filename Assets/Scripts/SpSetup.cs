@@ -35,27 +35,32 @@ public class SpSetup : MonoBehaviour
         }
     }
 
-    public void AddForce(Vector3 dir)
+    bool finished = false;
+    public IEnumerator OnFinishTrigger()
     {
-        carInstance.GetComponent<Rigidbody>().AddForce(dir * jumpForce, ForceMode.Impulse);
-    }
-    public void OnFinishTrigger()
-    {
-        bool impulsed = false;
         if (collectedCps >= neededCps)
         {
-            Debug.Log("You successfully finished and collected all checkpoints!");
-            if (!impulsed)
+            if (!finished)
             {
-                impulsed = true;
+                finished = true;
+
+                Debug.Log("You successfully finished and collected all checkpoints!");
+
                 carInstance.GetComponent<CarController>().enabled = false;
-                carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * -50000, ForceMode.Impulse);
+
+                yield return new WaitForSeconds(0.5f);
+                carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * -30000, ForceMode.Impulse);
             }
         }
         else
         {
             Debug.Log("You did not collect all the checkpoints!");
         }
+    }
+
+    public void AddForce(Vector3 dir)
+    {
+        carInstance.GetComponent<Rigidbody>().AddForce(dir * jumpForce, ForceMode.Impulse);
     }
     private void StartLevel()
     {

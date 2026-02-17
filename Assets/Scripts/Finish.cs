@@ -10,6 +10,6 @@ public class Finish : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        spSetup.OnFinishTrigger();
+        spSetup.StartCoroutine("OnFinishTrigger");
     }
 }
