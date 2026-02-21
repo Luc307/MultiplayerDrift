@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Speed : MonoBehaviour
 {
-    private SpSetup setup;
+    private Car carScript;
     private bool collected = false;
 
 
@@ -15,13 +15,9 @@ public class Speed : MonoBehaviour
     private IEnumerator StopSeedUp()
     {
         yield return new WaitForSeconds(0.75f);
-        setup.StopCoroutine("SpeedUp");
+        carScript.StopCoroutine("SpeedUp");
     }
 
-    private void Awake()
-    {
-        setup = GameObject.Find("ScriptExecuter").GetComponent<SpSetup>();
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Car")
@@ -31,7 +27,8 @@ public class Speed : MonoBehaviour
                 collected = true;
                 StartCoroutine("SetCollectedFalse");
 
-                setup.StartCoroutine("SpeedUp");
+                carScript = other.gameObject.GetComponent<Car>();
+                carScript.StartCoroutine("SpeedUp");
                 StartCoroutine("StopSeedUp");
             }
         }

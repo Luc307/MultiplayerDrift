@@ -1,14 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Checkpoints : MonoBehaviour
 {
-    private SpSetup setup;
     private bool collected = false;
 
-    private void Awake()
-    {
-        setup = GameObject.Find("ScriptExecuter").GetComponent<SpSetup>();
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Car")
@@ -16,7 +12,7 @@ public class Checkpoints : MonoBehaviour
             if (!collected)
             {
                 collected = true;
-                setup.collectedCps++;
+                other.gameObject.GetComponent<Car>().collectedCps++;
             }
         }
     }

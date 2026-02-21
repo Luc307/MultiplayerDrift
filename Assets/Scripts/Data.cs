@@ -2,6 +2,6 @@ using UnityEngine;
 
 public static class Data
 {
-    public static string carName = "SmallCar";
+    public static GameObject car;
     public static int mapIndex = 0;
 }

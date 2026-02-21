@@ -5,86 +5,68 @@ using UnityEngine.SceneManagement;
 
 public class Car : MonoBehaviour
 {
-    private GameObject[] tires;
-    private bool moveDown = false;
-    private bool jumpReady = false;
-    private Dictionary<GameObject, Vector3> tireBasePositionDic = new Dictionary<GameObject, Vector3>();
+    private GameObject carInstance;
 
+    private int neededCps;
+    public int collectedCps;
 
-    IEnumerator MoveTire(GameObject tire, Vector3 targetPos, bool finsihUp, float duration)
+    [SerializeField] private GameObject spawnpoint;
+
+    [SerializeField] private GameObject smallCar;
+
+    private bool finished = false;
+ 
+    private int jumpForce = 50000;
+    private int speedUpForce = 35;
+    
+ 
+    public IEnumerator SpeedUp()
     {
-        if (finsihUp)
+        while (true)
         {
-            while (moveDown)
+            carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * speedUpForce, ForceMode.Acceleration);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+    public IEnumerator OnFinishTrigger()
+    {
+        if (collectedCps >= neededCps)
+        {
+            if (!finished)
             {
-                yield return null;
+                finished = true;
+
+                Debug.Log("You successfully finished and collected all checkpoints!");
+
+                carInstance.GetComponent<CarController>().enabled = false;
+
+                yield return new WaitForSeconds(0.5f);
+                carInstance.GetComponent<Rigidbody>().AddForce(carInstance.transform.forward * -30000, ForceMode.Impulse);
             }
-        }
-
-        float elapsed = 0f;
-        Vector3 startPos = tire.transform.localPosition;
-
-        while (elapsed < duration)
-        {
-            tire.transform.localPosition = Vector3.Lerp(startPos, targetPos, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (finsihUp)
-        {
-            tire.transform.localPosition = targetPos;
         }
         else
         {
-            moveDown = false;
+            Debug.Log("You did not collect all the checkpoints!");
         }
     }
-    IEnumerator SetJumpReadyTrue(int time)
+    public void AddForce(Vector3 dir)
     {
-        yield return new WaitForSeconds(time);
-        jumpReady = true;
+        carInstance.GetComponent<Rigidbody>().AddForce(dir * jumpForce, ForceMode.Impulse);
     }
 
     private void Awake()
     {
-        tires = GameObject.FindGameObjectsWithTag("Tire");
-        foreach (GameObject tire in tires)
-        {
-            tireBasePositionDic.Add(tire, tire.transform.localPosition);
-        }
+        neededCps = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+
+        carInstance = Instantiate(smallCar, spawnpoint.transform.position, spawnpoint.transform.rotation);
+        GameObject.Find("CameraHolder").GetComponent<MyCamera>().target = carInstance;
     }
     private void Start()
     {
-        StartCoroutine(SetJumpReadyTrue(5));
+        
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            if (jumpReady)
-            {
-                jumpReady = false;
-                StartCoroutine(SetJumpReadyTrue(2));
-                moveDown = true;
-
-                //move down
-                foreach (GameObject tire in tires)
-                {
-                    StartCoroutine(MoveTire(tire, tire.transform.localPosition + Vector3.down, false, 0.25f));
-                }
-
-                //move up
-                foreach (GameObject tire in tires)
-                {
-                    StartCoroutine(MoveTire(tire, tireBasePositionDic[tire], true, 1));
-                }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        if (carInstance.transform.position.y < -50) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

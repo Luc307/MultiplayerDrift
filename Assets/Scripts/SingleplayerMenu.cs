@@ -14,13 +14,8 @@ public class SigleplayerMenu : MonoBehaviour
     private bool carRotationReady = true;
     private int carIndex = 0;
     private float carStartTime;
-    private Dictionary<int, string> indexCarDic = new Dictionary<int, string>()
-    {
-        {0, "SmallCar"},
-        {1, "MidCar"},
-        {2, "BigCar"},
-        {3, "MidCar"},
-    };
+
+    private GameObject[] cars;
 
     [SerializeField] private Button nextMap;
     [SerializeField] private Button prevMap;
@@ -36,11 +31,11 @@ public class SigleplayerMenu : MonoBehaviour
     [SerializeField] private Button play;
 
 
-    private string GetCarName()
+    private GameObject GetCar()
     {
         int index = (carIndex >= 0) ? carIndex : carIndex * -1;
-        index = index % indexCarDic.Count;
-        return indexCarDic[index];
+        index = index % cars.Length;
+        return cars[index];
     }
     private int GetMapIndex()
     {
@@ -95,10 +90,10 @@ public class SigleplayerMenu : MonoBehaviour
 
         play.onClick.AddListener(() =>
         {
-            Data.carName = GetCarName();
+            Data.car = GetCar();
             Data.mapIndex = GetMapIndex();
 
-            Debug.Log($"Map: {Data.mapIndex}, Car {Data.carName}");
+            Debug.Log($"Map: {Data.mapIndex}, Car {Data.car}");
 
             SceneManager.LoadScene(mapIndex + 2);
         });
