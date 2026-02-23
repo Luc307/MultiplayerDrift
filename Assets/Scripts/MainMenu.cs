@@ -9,7 +9,15 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
-        singleplayerBtn.onClick.AddListener(() => SceneManager.LoadScene("SpMenu"));
-        multiplayerBtn.onClick.AddListener(() => SceneManager.LoadScene("Multiplayer"));
+        singleplayerBtn.onClick.AddListener(() =>
+        {
+            Data.singleplayer = true;
+            SceneManager.LoadScene("LevelMenu");
+        });
+        multiplayerBtn.onClick.AddListener(() => 
+        {
+            Data.singleplayer = false;
+            SceneManager.LoadScene("LevelMenu");
+        });
     }
 }
