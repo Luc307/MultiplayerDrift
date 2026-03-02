@@ -639,7 +639,8 @@ GameObject:
   - component: {fileID: 5694657044056693111}
   - component: {fileID: 3059907264753067068}
   - component: {fileID: 949876133801469180}
-  - component: {fileID: 3853204264348852077}
+  - component: {fileID: 8044445517734893396}
+  - component: {fileID: 6436041754427218832}
   m_Layer: 8
   m_Name: SmallCar
   m_TagString: Car
@@ -883,7 +884,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2726543719342298615}
   m_Enabled: 1
---- !u!114 &3853204264348852077
+--- !u!114 &8044445517734893396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -892,9 +893,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 2726543719342298615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 278bfb1ca231e3e4b94e6f964dcbbef2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1faab977ba0ed40479b2c2884fc49f1f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Car
+  collectedCps: 0
+  spawnpoint: {fileID: 0}
+  smallCar: {fileID: 0}
+--- !u!114 &6436041754427218832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2726543719342298615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f3b53c3c0535b4c884e2c0937e01ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarInput
 --- !u!1 &2994496426097306759
 GameObject:
   m_ObjectHideFlags: 0

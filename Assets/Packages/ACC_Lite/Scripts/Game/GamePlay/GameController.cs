@@ -9,7 +9,8 @@ using UnityEngine;
 /// </summary>
 public class GameController :MonoBehaviour
 {
-	public KeyCode nextCarKey = KeyCode.N;
+	[SerializeField] KeyCode NextCarKey = KeyCode.N;
+	[SerializeField] UnityEngine.UI.Button NextCarButton;
 	public static GameController Instance;
 	public static CarController PlayerCar { get { return Instance.m_PlayerCar; } }
 	public static bool RaceIsStarted { get { return true; } }
@@ -17,6 +18,7 @@ public class GameController :MonoBehaviour
 
 	CarController m_PlayerCar;
 	List<CarController> Cars = new List<CarController>();
+	int CurrentCarIndex = 0;
 
 	protected virtual void Awake ()
 	{
@@ -24,7 +26,7 @@ public class GameController :MonoBehaviour
 		Instance = this;
 
 		//Find all cars in current game.
-		Cars.AddRange(FindObjectsByType<CarController>(FindObjectsSortMode.None));
+		Cars.AddRange (GameObject.FindObjectsOfType<CarController> ());
 		Cars = Cars.OrderBy (c => c.name).ToList();
 
 		foreach (var car in Cars)
@@ -49,10 +51,31 @@ public class GameController :MonoBehaviour
 		m_PlayerCar = Cars[0];
 		m_PlayerCar.GetComponent<UserControl> ().enabled = true;
 		m_PlayerCar.GetComponent<AudioListener> ().enabled = true;
+
+		if (NextCarButton)
+        {
+			NextCarButton.onClick.AddListener (NextCar);
+		}
 	}
 
-    //private void Update()s
-    //{
-    //    if(Input.))
-    //}
+	void Update () 
+	{ 
+		if (Input.GetKeyDown (NextCarKey))
+		{
+			NextCar ();
+		}
+
+	}
+
+	private void NextCar ()
+	{
+		m_PlayerCar.GetComponent<UserControl> ().enabled = false;
+		m_PlayerCar.GetComponent<AudioListener> ().enabled = false;
+
+		CurrentCarIndex = MathExtentions.LoopClamp (CurrentCarIndex + 1, 0, Cars.Count);
+
+		m_PlayerCar = Cars[CurrentCarIndex];
+		m_PlayerCar.GetComponent<UserControl> ().enabled = true;
+		m_PlayerCar.GetComponent<AudioListener> ().enabled = true;
+	}
 }

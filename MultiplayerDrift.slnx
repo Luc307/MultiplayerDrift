@@ -1,4 +1,5 @@
 ﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="FishNet.Runtime.csproj" />
   <Project Path="FishNet.Codegen.Cecil.csproj" />
   <Project Path="GameKit.Dependencies.csproj" />
@@ -7,7 +8,6 @@
   <Project Path="Utilities.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Utilities.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Utilities.Test.Editor.csproj" />
   <Project Path="Utilities.Test.csproj" />
 </Solution>

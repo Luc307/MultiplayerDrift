@@ -278,25 +278,25 @@ namespace FishNet.Managing.Predicting
         /// <summary>
         /// How many states to try and hold in a buffer before running them. Larger values add resilience against network issues at the cost of running states later.
         /// </summary>
-        public byte StateInterpolation => _stateInterpolation;
+        public byte StateInterpolation => trueInterpolation;
         [Tooltip("How many states to try and hold in a buffer before running them on clients. Larger values add resilience against network issues at the cost of running states later.")]
         [Range(0, MAXIMUM_PAST_INPUTS)]
         [FormerlySerializedAs("_redundancyCount")] // Remove on V5.
         [FormerlySerializedAs("_interpolation")] // Remove on V5.
         [SerializeField]
-        private byte _stateInterpolation = 2;
+        private byte trueInterpolation = 2;
         /// <summary>
         /// The order in which states are run. Future favors performance and does not depend upon reconciles, while Past favors accuracy but clients must reconcile every tick.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public ReplicateStateOrder StateOrder => _stateOrder;
+        public ReplicateStateOrder StateOrder => trueOrder;
         [Tooltip("The order in which clients run states. Future favors performance and does not depend upon reconciles, while Past favors accuracy but clients must reconcile every tick.")]
         [SerializeField]
-        private ReplicateStateOrder _stateOrder = ReplicateStateOrder.Appended;
+        private ReplicateStateOrder trueOrder = ReplicateStateOrder.Appended;
         /// <summary>
         /// True if StateOrder is set to future.
         /// </summary>
-        internal bool IsAppendedStateOrder => _stateOrder == ReplicateStateOrder.Appended;
+        internal bool IsAppendedStateOrder => trueOrder == ReplicateStateOrder.Appended;
 
         /// <summary>
         /// Sets the current ReplicateStateOrder. This may be changed at runtime.
@@ -309,10 +309,10 @@ namespace FishNet.Managing.Predicting
             if (_networkManager.IsServerStarted)
                 return;
             // Same as before, do nothing.
-            if (stateOrder == _stateOrder)
+            if (stateOrder == trueOrder)
                 return;
 
-            _stateOrder = stateOrder;
+            trueOrder = stateOrder;
             /* If the client is started and if the next
              * ReplicateStateOrder is Inserted then tell spawned objects
              * to move the current replicates queue into history. This
@@ -356,7 +356,7 @@ namespace FishNet.Managing.Predicting
         /// <summary>
         /// Number of past inputs to send, which is also the number of times to resend final data.
         /// </summary>
-        internal byte RedundancyCount => (byte)(_stateInterpolation + 1);
+        internal byte RedundancyCount => (byte)(trueInterpolation + 1);
         #endregion
 
         #region Private.
@@ -370,7 +370,7 @@ namespace FishNet.Managing.Predicting
         /// Key: client LocalTick on the state.
         /// Value: StatePacket stored.
         /// </summary>
-        private readonly Dictionary<uint, StatePacket> _stateLookups = new();
+        private readonly Dictionary<uint, StatePacket> trueLookups = new();
         /// <summary>
         /// Last ordered tick read for a reconcile state.
         /// </summary>
@@ -441,7 +441,7 @@ namespace FishNet.Managing.Predicting
         /// <summary>
         /// Message when state interpolation is 0.
         /// </summary>
-        internal static readonly string ZERO_STATE_INTERPOLATION_MESSAGE = $"When interpolation is 0 the chances of de-synchronizations on non-owned objects is increased drastically.";
+        internal static readonly string ZEROtrue_INTERPOLATION_MESSAGE = $"When interpolation is 0 the chances of de-synchronizations on non-owned objects is increased drastically.";
         /// <summary>
         /// Message when state interpolation is less than ideal for appended state order.
         /// </summary>
@@ -481,21 +481,21 @@ namespace FishNet.Managing.Predicting
         /// </summary>
         private void ValidateClampInterpolation()
         {
-            ushort startingValue = _stateInterpolation;
+            ushort startingValue = trueInterpolation;
             // Check for setting if dropping.
-            if (_dropExcessiveReplicates && _stateInterpolation > _maximumServerReplicates)
-                _stateInterpolation = (byte)(_maximumServerReplicates - 1);
+            if (_dropExcessiveReplicates && trueInterpolation > _maximumServerReplicates)
+                trueInterpolation = (byte)(_maximumServerReplicates - 1);
 
             // If changed.
-            if (_stateInterpolation != startingValue)
-                _networkManager.Log($"Interpolation has been set to {_stateInterpolation}.");
+            if (trueInterpolation != startingValue)
+                _networkManager.Log($"Interpolation has been set to {trueInterpolation}.");
 
             // Check to warn if low value.
-            if (_stateInterpolation == 0)
-                _networkManager.LogWarning(ZERO_STATE_INTERPOLATION_MESSAGE);
-            else if (_stateOrder == ReplicateStateOrder.Appended && _stateInterpolation < MINIMUM_APPENDED_INTERPOLATION_RECOMMENDATION)
+            if (trueInterpolation == 0)
+                _networkManager.LogWarning(ZEROtrue_INTERPOLATION_MESSAGE);
+            else if (trueOrder == ReplicateStateOrder.Appended && trueInterpolation < MINIMUM_APPENDED_INTERPOLATION_RECOMMENDATION)
                 _networkManager.LogWarning(LESS_THAN_MINIMUM_APPENDED_MESSAGE);
-            else if (_stateOrder == ReplicateStateOrder.Inserted && _stateInterpolation < MINIMUM_INSERTED_INTERPOLATION_RECOMMENDATION)
+            else if (trueOrder == ReplicateStateOrder.Inserted && trueInterpolation < MINIMUM_INSERTED_INTERPOLATION_RECOMMENDATION)
                 _networkManager.LogWarning(LESS_THAN_MINIMUM_INSERTED_MESSAGE);
         }
 
@@ -858,7 +858,7 @@ namespace FishNet.Managing.Predicting
 
                 /* See if an entry was already added for the clientTick. If so then
                  * add onto the data. Otherwise, add a new state packet. */
-                if (_stateLookups.TryGetValue(clientTick, out StatePacket sp1))
+                if (trueLookups.TryGetValue(clientTick, out StatePacket sp1))
                 {
                     //Debug.Log($"Updating state " + clientTick);
                     sp1.AddData(segment, channel);
@@ -868,7 +868,7 @@ namespace FishNet.Managing.Predicting
                     //Debug.Log($"Adding state " + clientTick);
                     StatePacket sp2 = ResettableObjectCaches<StatePacket>.Retrieve();
                     sp2.Update(segment, clientTick, lastRemoteTick, channel);
-                    _stateLookups[clientTick] = sp2;
+                    trueLookups[clientTick] = sp2;
                     _reconcileStates.Enqueue(sp2);
                 }
             }
@@ -935,7 +935,7 @@ namespace FishNet.Managing.Predicting
         private void DisposeOfStatePacket(StatePacket sp)
         {
             uint clientTick = sp.ClientTick;
-            _stateLookups.Remove(clientTick);
+            trueLookups.Remove(clientTick);
             ResettableObjectCaches<StatePacket>.Store(sp);
         }
 

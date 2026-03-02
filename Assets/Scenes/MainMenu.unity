@@ -1017,8 +1017,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0c2da8b7a226f4b92b824f395a21e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Menu
-  singleplayerBtn: {fileID: 0}
-  multiplayerBtn: {fileID: 0}
+  singleplayerBtn: {fileID: 1102173805}
+  multiplayerBtn: {fileID: 1009176510}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

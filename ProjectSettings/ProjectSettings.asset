@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: a93172d631da4874ba8507a5e7a2182c
+  productGUID: 9fd14ac415ec9c844a16981c3bd67b21
   AndroidProfiler: 1
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -255,7 +255,7 @@ PlayerSettings:
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
   shaderPrecisionModel: 0
-  clonedFromGUID: 1ef025baaea58294abd613bbbab041b8
+  clonedFromGUID: afacbf803e3b073498d99a9ac4563d76
   templatePackageId: 
   templateDefaultScene: 
   useCustomMainManifest: 0
@@ -267,7 +267,7 @@ PlayerSettings:
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
   AndroidTargetArchitectures: 6
-  AndroidAllowedArchitectures: -1
+  AndroidAllowedArchitectures: -13
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: D:/Dev/ACC Lite/key.keystore
@@ -410,103 +410,6 @@ PlayerSettings:
       m_Height: 81
       m_Kind: 2
       m_SubKind: 
-  - m_BuildTarget: iPhone
-    m_Icons:
-    - m_Textures: []
-      m_Width: 180
-      m_Height: 180
-      m_Kind: 0
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 0
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 167
-      m_Height: 167
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 152
-      m_Height: 152
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 76
-      m_Height: 76
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 87
-      m_Height: 87
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 60
-      m_Height: 60
-      m_Kind: 2
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 2
-      m_SubKind: iPhone
-    - m_Textures: []
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 2
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 20
-      m_Height: 20
-      m_Kind: 2
-      m_SubKind: iPad
-    - m_Textures: []
-      m_Width: 1024
-      m_Height: 1024
-      m_Kind: 4
-      m_SubKind: App Store
   m_BuildTargetBatching: []
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs:
@@ -583,10 +486,7 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat:
-  - serializedVersion: 3
-    m_BuildTarget: WebGL
-    m_Formats: 05000000
+  m_BuildTargetDefaultTextureCompressionFormat: []
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -864,10 +764,9 @@ PlayerSettings:
     PS4: UNITY_POST_PROCESSING_STACK_V2
     PS5: UNITY_POST_PROCESSING_STACK_V2
     QNX: UNITY_POST_PROCESSING_STACK_V2
-    ReservedCFE: UNITY_POST_PROCESSING_STACK_V2
-    Standalone: UNITY_POST_PROCESSING_STACK_V2;MVC_COMMUNITY;FISHNET;FISHNET_V4
+    Standalone: UNITY_POST_PROCESSING_STACK_V2;FISHNET;FISHNET_V4
     VisionOS: UNITY_POST_PROCESSING_STACK_V2
-    WebGL: UNITY_POST_PROCESSING_STACK_V2;MVC_COMMUNITY
+    WebGL: UNITY_POST_PROCESSING_STACK_V2
     XboxOne: UNITY_POST_PROCESSING_STACK_V2
     iPhone: UNITY_POST_PROCESSING_STACK_V2
     tvOS: UNITY_POST_PROCESSING_STACK_V2
@@ -885,10 +784,10 @@ PlayerSettings:
     GameCoreXboxOne: 1
     Kepler: 1
     Nintendo Switch: 1
+    Nintendo Switch 2: 1
     PS4: 1
     PS5: 1
     QNX: 1
-    ReservedCFE: 1
     VisionOS: 1
     WebGL: 1
     Windows Store Apps: 1
@@ -907,14 +806,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: DriftMultiplayer
+  metroPackageName: MultiplayerDrift
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: DriftMultiplayer
+  metroApplicationDescription: MultiplayerDrift
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0

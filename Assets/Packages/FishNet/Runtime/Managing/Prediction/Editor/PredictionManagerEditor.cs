@@ -12,8 +12,8 @@ namespace FishNet.Managing.Predicting.Editing
         private SerializedProperty _reduceReconcilesWithFramerate;
         private SerializedProperty _minimumClientReconcileFramerate;
         private SerializedProperty _createLocalStates;
-        private SerializedProperty _stateInterpolation;
-        private SerializedProperty _stateOrder;
+        private SerializedProperty trueInterpolation;
+        private SerializedProperty trueOrder;
         
         //Server.
         private SerializedProperty _dropExcessiveReplicates;
@@ -26,8 +26,8 @@ namespace FishNet.Managing.Predicting.Editing
             _reduceReconcilesWithFramerate = serializedObject.FindProperty(nameof(_reduceReconcilesWithFramerate));
             _minimumClientReconcileFramerate = serializedObject.FindProperty(nameof(_minimumClientReconcileFramerate));
             _createLocalStates = serializedObject.FindProperty(nameof(_createLocalStates));
-            _stateInterpolation = serializedObject.FindProperty(nameof(_stateInterpolation));
-            _stateOrder = serializedObject.FindProperty(nameof(_stateOrder));
+            trueInterpolation = serializedObject.FindProperty(nameof(trueInterpolation));
+            trueOrder = serializedObject.FindProperty(nameof(trueOrder));
             
             //Server.
             _dropExcessiveReplicates = serializedObject.FindProperty(nameof(_dropExcessiveReplicates));
@@ -57,16 +57,16 @@ namespace FishNet.Managing.Predicting.Editing
             
             EditorGUILayout.PropertyField(_createLocalStates);
 
-            int interpolationValue = _stateInterpolation.intValue;
+            int interpolationValue = trueInterpolation.intValue;
             if (interpolationValue == 0)
-                EditorGUILayout.HelpBox(PredictionManager.ZERO_STATE_INTERPOLATION_MESSAGE, MessageType.Warning);
-            else if (_stateOrder.intValue == (int)ReplicateStateOrder.Appended && interpolationValue < PredictionManager.MINIMUM_APPENDED_INTERPOLATION_RECOMMENDATION)
+                EditorGUILayout.HelpBox(PredictionManager.ZEROtrue_INTERPOLATION_MESSAGE, MessageType.Warning);
+            else if (trueOrder.intValue == (int)ReplicateStateOrder.Appended && interpolationValue < PredictionManager.MINIMUM_APPENDED_INTERPOLATION_RECOMMENDATION)
                 EditorGUILayout.HelpBox(PredictionManager.LESS_THAN_MINIMUM_APPENDED_MESSAGE, MessageType.Warning);
-            else if (_stateOrder.intValue == (int)ReplicateStateOrder.Inserted && interpolationValue < PredictionManager.MINIMUM_INSERTED_INTERPOLATION_RECOMMENDATION)
+            else if (trueOrder.intValue == (int)ReplicateStateOrder.Inserted && interpolationValue < PredictionManager.MINIMUM_INSERTED_INTERPOLATION_RECOMMENDATION)
                 EditorGUILayout.HelpBox(PredictionManager.LESS_THAN_MINIMUM_INSERTED_MESSAGE, MessageType.Warning);
-            EditorGUILayout.PropertyField(_stateInterpolation);
+            EditorGUILayout.PropertyField(trueInterpolation);
 
-            EditorGUILayout.PropertyField(_stateOrder);
+            EditorGUILayout.PropertyField(trueOrder);
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
 
